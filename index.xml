@@ -1,0 +1,52 @@
+<?xml version="1.0" encoding="utf-8" standalone="yes" ?>
+<rss version="2.0" xmlns:atom="http://www.w3.org/2005/Atom">
+  <channel>
+    <title>thechamberofunderstanding.com</title>
+    <link>http://blog.thechamberofunderstanding.com/</link>
+    <description>Recent content on thechamberofunderstanding.com</description>
+    <generator>Hugo -- gohugo.io</generator>
+    <language>en-us</language>
+    <lastBuildDate>Sat, 01 Oct 2016 08:15:53 -0700</lastBuildDate>
+    <atom:link href="http://blog.thechamberofunderstanding.com/index.xml" rel="self" type="application/rss+xml" />
+    
+    <item>
+      <title>good to great</title>
+      <link>http://blog.thechamberofunderstanding.com/post/good-to-great/</link>
+      <pubDate>Sat, 01 Oct 2016 08:15:53 -0700</pubDate>
+      
+      <guid>http://blog.thechamberofunderstanding.com/post/good-to-great/</guid>
+      <description>&lt;p&gt;some stuff here&lt;/p&gt;
+
+def foo
+  puts &#34;bar&#34;
+end
+
+buildPythonApplication rec {
+    name = &#34;yubioath-desktop&#34;;
+    version = &#34;2.3.0&#34;;
+    src = fetchurl {
+      url = &#34;https://github.com/Yubico/yubioath-desktop/releases/download/${name}-${version}/${name}-${version}.tar.gz&#34;;
+      sha256 = &#34;df91f1592c069ead9d0ee4653aadd5d00fe5b93f0688e6e8ad3d7116a894b12e&#34;;
+    };
+
+    postPatch = &#39;&#39;
+      sed -i &#39;/PySide/d&#39; yubioath/yubicommon/setup/qt.py
+      patch -p1 -d yubioath &lt; ${./fix_library_loading.patch}
+      substituteInPlace yubioath/core/legacy_otp.py --replace &#34;ykpers-1&#34; &#34;${ykpers}/lib/libykpers-1.so&#34;
+    &#39;&#39;;
+
+    doCheck = false;
+
+    pythonPath = with pythonPackages; [ pyside pycrypto pyscard ];
+
+    makeWrapperArgs = [&#34;--suffix LD_LIBRARY_PATH : \&#34;${ykpers}/lib\&#34;&#34; ];
+
+    postInstall = &#39;&#39;
+      cp -r qt_resources $out/lib/python2.7/site-packages/yubioath/gui/
+    &#39;&#39;;
+  }
+</description>
+    </item>
+    
+  </channel>
+</rss>
