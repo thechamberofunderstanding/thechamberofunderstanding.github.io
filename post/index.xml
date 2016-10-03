@@ -16,35 +16,35 @@
       
       <guid>https://thechamberofunderstanding.github.io/post/good-to-great/</guid>
       <description>&lt;p&gt;some stuff here&lt;/p&gt;
+&lt;div class=&#34;highlight&#34;&gt;&lt;pre&gt;&lt;code class=&#34;language-ruby&#34; data-lang=&#34;ruby&#34;&gt;&lt;span&gt;&lt;/span&gt;&lt;span class=&#34;k&#34;&gt;def&lt;/span&gt; &lt;span class=&#34;nf&#34;&gt;foo&lt;/span&gt;
+  &lt;span class=&#34;nb&#34;&gt;puts&lt;/span&gt; &lt;span class=&#34;s2&#34;&gt;&amp;quot;bar&amp;quot;&lt;/span&gt;
+&lt;span class=&#34;k&#34;&gt;end&lt;/span&gt;
+&lt;/code&gt;&lt;/pre&gt;&lt;/div&gt;
+&lt;div class=&#34;highlight&#34;&gt;&lt;pre&gt;&lt;code class=&#34;language-nixos&#34; data-lang=&#34;nixos&#34;&gt;&lt;span&gt;&lt;/span&gt;buildPythonApplication &lt;span class=&#34;k&#34;&gt;rec&lt;/span&gt; &lt;span class=&#34;p&#34;&gt;{&lt;/span&gt;
+    &lt;span class=&#34;ss&#34;&gt;name =&lt;/span&gt; &lt;span class=&#34;s2&#34;&gt;&amp;quot;yubioath-desktop&amp;quot;&lt;/span&gt;&lt;span class=&#34;p&#34;&gt;;&lt;/span&gt;
+    &lt;span class=&#34;ss&#34;&gt;version =&lt;/span&gt; &lt;span class=&#34;s2&#34;&gt;&amp;quot;2.3.0&amp;quot;&lt;/span&gt;&lt;span class=&#34;p&#34;&gt;;&lt;/span&gt;
+    &lt;span class=&#34;ss&#34;&gt;src =&lt;/span&gt; fetchurl &lt;span class=&#34;p&#34;&gt;{&lt;/span&gt;
+      &lt;span class=&#34;ss&#34;&gt;url =&lt;/span&gt; &lt;span class=&#34;s2&#34;&gt;&amp;quot;https://github.com/Yubico/yubioath-desktop/releases/download/&lt;/span&gt;&lt;span class=&#34;si&#34;&gt;${&lt;/span&gt;name&lt;span class=&#34;si&#34;&gt;}&lt;/span&gt;&lt;span class=&#34;s2&#34;&gt;-&lt;/span&gt;&lt;span class=&#34;si&#34;&gt;${&lt;/span&gt;version&lt;span class=&#34;si&#34;&gt;}&lt;/span&gt;&lt;span class=&#34;s2&#34;&gt;/&lt;/span&gt;&lt;span class=&#34;si&#34;&gt;${&lt;/span&gt;name&lt;span class=&#34;si&#34;&gt;}&lt;/span&gt;&lt;span class=&#34;s2&#34;&gt;-&lt;/span&gt;&lt;span class=&#34;si&#34;&gt;${&lt;/span&gt;version&lt;span class=&#34;si&#34;&gt;}&lt;/span&gt;&lt;span class=&#34;s2&#34;&gt;.tar.gz&amp;quot;&lt;/span&gt;&lt;span class=&#34;p&#34;&gt;;&lt;/span&gt;
+      &lt;span class=&#34;ss&#34;&gt;sha256 =&lt;/span&gt; &lt;span class=&#34;s2&#34;&gt;&amp;quot;df91f1592c069ead9d0ee4653aadd5d00fe5b93f0688e6e8ad3d7116a894b12e&amp;quot;&lt;/span&gt;&lt;span class=&#34;p&#34;&gt;;&lt;/span&gt;
+    &lt;span class=&#34;p&#34;&gt;};&lt;/span&gt;
 
-def foo
-  puts &#34;bar&#34;
-end
+    &lt;span class=&#34;ss&#34;&gt;postPatch =&lt;/span&gt; &lt;span class=&#34;s1&#34;&gt;&amp;#39;&amp;#39;&lt;/span&gt;
+&lt;span class=&#34;s1&#34;&gt;      sed -i &lt;/span&gt;&lt;span class=&#34;err&#34;&gt;&amp;#39;&lt;/span&gt;&lt;span class=&#34;s1&#34;&gt;/PySide/d&lt;/span&gt;&lt;span class=&#34;err&#34;&gt;&amp;#39;&lt;/span&gt;&lt;span class=&#34;s1&#34;&gt; yubioath/yubicommon/setup/qt.py&lt;/span&gt;
+&lt;span class=&#34;s1&#34;&gt;      patch -p1 -d yubioath &amp;lt; &lt;/span&gt;&lt;span class=&#34;si&#34;&gt;${&lt;/span&gt;&lt;span class=&#34;o&#34;&gt;.&lt;/span&gt;&lt;span class=&#34;l&#34;&gt;/fix_library_loading.patch&lt;/span&gt;&lt;span class=&#34;si&#34;&gt;}&lt;/span&gt;&lt;span class=&#34;s1&#34;&gt;&lt;/span&gt;
+&lt;span class=&#34;s1&#34;&gt;      substituteInPlace yubioath/core/legacy_otp.py --replace &amp;quot;ykpers-1&amp;quot; &amp;quot;&lt;/span&gt;&lt;span class=&#34;si&#34;&gt;${&lt;/span&gt;ykpers&lt;span class=&#34;si&#34;&gt;}&lt;/span&gt;&lt;span class=&#34;s1&#34;&gt;/lib/libykpers-1.so&amp;quot;&lt;/span&gt;
+&lt;span class=&#34;s1&#34;&gt;    &amp;#39;&amp;#39;&lt;/span&gt;&lt;span class=&#34;p&#34;&gt;;&lt;/span&gt;
 
-buildPythonApplication rec {
-    name = &#34;yubioath-desktop&#34;;
-    version = &#34;2.3.0&#34;;
-    src = fetchurl {
-      url = &#34;https://github.com/Yubico/yubioath-desktop/releases/download/${name}-${version}/${name}-${version}.tar.gz&#34;;
-      sha256 = &#34;df91f1592c069ead9d0ee4653aadd5d00fe5b93f0688e6e8ad3d7116a894b12e&#34;;
-    };
+    &lt;span class=&#34;ss&#34;&gt;doCheck =&lt;/span&gt; &lt;span class=&#34;no&#34;&gt;false&lt;/span&gt;&lt;span class=&#34;p&#34;&gt;;&lt;/span&gt;
 
-    postPatch = &#39;&#39;
-      sed -i &#39;/PySide/d&#39; yubioath/yubicommon/setup/qt.py
-      patch -p1 -d yubioath &lt; ${./fix_library_loading.patch}
-      substituteInPlace yubioath/core/legacy_otp.py --replace &#34;ykpers-1&#34; &#34;${ykpers}/lib/libykpers-1.so&#34;
-    &#39;&#39;;
+    &lt;span class=&#34;ss&#34;&gt;pythonPath =&lt;/span&gt; &lt;span class=&#34;k&#34;&gt;with&lt;/span&gt; pythonPackages&lt;span class=&#34;p&#34;&gt;;&lt;/span&gt; &lt;span class=&#34;p&#34;&gt;[&lt;/span&gt; pyside pycrypto pyscard &lt;span class=&#34;p&#34;&gt;];&lt;/span&gt;
 
-    doCheck = false;
+    &lt;span class=&#34;ss&#34;&gt;makeWrapperArgs =&lt;/span&gt; &lt;span class=&#34;p&#34;&gt;[&lt;/span&gt;&lt;span class=&#34;s2&#34;&gt;&amp;quot;--suffix LD_LIBRARY_PATH : &lt;/span&gt;&lt;span class=&#34;se&#34;&gt;\&lt;/span&gt;&lt;span class=&#34;s2&#34;&gt;&amp;quot;&lt;/span&gt;&lt;span class=&#34;err&#34;&gt;$&lt;/span&gt;&lt;span class=&#34;p&#34;&gt;{&lt;/span&gt;ykpers&lt;span class=&#34;p&#34;&gt;}&lt;/span&gt;&lt;span class=&#34;l&#34;&gt;/lib&lt;/span&gt;&lt;span class=&#34;err&#34;&gt;\&lt;/span&gt;&lt;span class=&#34;s2&#34;&gt;&amp;quot;&amp;quot;&lt;/span&gt; &lt;span class=&#34;p&#34;&gt;];&lt;/span&gt;
 
-    pythonPath = with pythonPackages; [ pyside pycrypto pyscard ];
-
-    makeWrapperArgs = [&#34;--suffix LD_LIBRARY_PATH : \&#34;${ykpers}/lib\&#34;&#34; ];
-
-    postInstall = &#39;&#39;
-      cp -r qt_resources $out/lib/python2.7/site-packages/yubioath/gui/
-    &#39;&#39;;
-  }
+    &lt;span class=&#34;ss&#34;&gt;postInstall =&lt;/span&gt; &lt;span class=&#34;s1&#34;&gt;&amp;#39;&amp;#39;&lt;/span&gt;
+&lt;span class=&#34;s1&#34;&gt;      cp -r qt_resources $out/lib/python2.7/site-packages/yubioath/gui/&lt;/span&gt;
+&lt;span class=&#34;s1&#34;&gt;    &amp;#39;&amp;#39;&lt;/span&gt;&lt;span class=&#34;p&#34;&gt;;&lt;/span&gt;
+  &lt;span class=&#34;p&#34;&gt;}&lt;/span&gt;
+&lt;/code&gt;&lt;/pre&gt;&lt;/div&gt;
 </description>
     </item>
     

@@ -68,35 +68,35 @@
     </div>
     <article>
       <p>some stuff here</p>
+<div class="highlight"><pre><code class="language-ruby" data-lang="ruby"><span></span><span class="k">def</span> <span class="nf">foo</span>
+  <span class="nb">puts</span> <span class="s2">&quot;bar&quot;</span>
+<span class="k">end</span>
+</code></pre></div>
+<div class="highlight"><pre><code class="language-nixos" data-lang="nixos"><span></span>buildPythonApplication <span class="k">rec</span> <span class="p">{</span>
+    <span class="ss">name =</span> <span class="s2">&quot;yubioath-desktop&quot;</span><span class="p">;</span>
+    <span class="ss">version =</span> <span class="s2">&quot;2.3.0&quot;</span><span class="p">;</span>
+    <span class="ss">src =</span> fetchurl <span class="p">{</span>
+      <span class="ss">url =</span> <span class="s2">&quot;https://github.com/Yubico/yubioath-desktop/releases/download/</span><span class="si">${</span>name<span class="si">}</span><span class="s2">-</span><span class="si">${</span>version<span class="si">}</span><span class="s2">/</span><span class="si">${</span>name<span class="si">}</span><span class="s2">-</span><span class="si">${</span>version<span class="si">}</span><span class="s2">.tar.gz&quot;</span><span class="p">;</span>
+      <span class="ss">sha256 =</span> <span class="s2">&quot;df91f1592c069ead9d0ee4653aadd5d00fe5b93f0688e6e8ad3d7116a894b12e&quot;</span><span class="p">;</span>
+    <span class="p">};</span>
 
-def foo
-  puts "bar"
-end
+    <span class="ss">postPatch =</span> <span class="s1">&#39;&#39;</span>
+<span class="s1">      sed -i </span><span class="err">&#39;</span><span class="s1">/PySide/d</span><span class="err">&#39;</span><span class="s1"> yubioath/yubicommon/setup/qt.py</span>
+<span class="s1">      patch -p1 -d yubioath &lt; </span><span class="si">${</span><span class="o">.</span><span class="l">/fix_library_loading.patch</span><span class="si">}</span><span class="s1"></span>
+<span class="s1">      substituteInPlace yubioath/core/legacy_otp.py --replace &quot;ykpers-1&quot; &quot;</span><span class="si">${</span>ykpers<span class="si">}</span><span class="s1">/lib/libykpers-1.so&quot;</span>
+<span class="s1">    &#39;&#39;</span><span class="p">;</span>
 
-buildPythonApplication rec {
-    name = "yubioath-desktop";
-    version = "2.3.0";
-    src = fetchurl {
-      url = "https://github.com/Yubico/yubioath-desktop/releases/download/${name}-${version}/${name}-${version}.tar.gz";
-      sha256 = "df91f1592c069ead9d0ee4653aadd5d00fe5b93f0688e6e8ad3d7116a894b12e";
-    };
+    <span class="ss">doCheck =</span> <span class="no">false</span><span class="p">;</span>
 
-    postPatch = ''
-      sed -i '/PySide/d' yubioath/yubicommon/setup/qt.py
-      patch -p1 -d yubioath < ${./fix_library_loading.patch}
-      substituteInPlace yubioath/core/legacy_otp.py --replace "ykpers-1" "${ykpers}/lib/libykpers-1.so"
-    '';
+    <span class="ss">pythonPath =</span> <span class="k">with</span> pythonPackages<span class="p">;</span> <span class="p">[</span> pyside pycrypto pyscard <span class="p">];</span>
 
-    doCheck = false;
+    <span class="ss">makeWrapperArgs =</span> <span class="p">[</span><span class="s2">&quot;--suffix LD_LIBRARY_PATH : </span><span class="se">\</span><span class="s2">&quot;</span><span class="err">$</span><span class="p">{</span>ykpers<span class="p">}</span><span class="l">/lib</span><span class="err">\</span><span class="s2">&quot;&quot;</span> <span class="p">];</span>
 
-    pythonPath = with pythonPackages; [ pyside pycrypto pyscard ];
-
-    makeWrapperArgs = ["--suffix LD_LIBRARY_PATH : \"${ykpers}/lib\"" ];
-
-    postInstall = ''
-      cp -r qt_resources $out/lib/python2.7/site-packages/yubioath/gui/
-    '';
-  }
+    <span class="ss">postInstall =</span> <span class="s1">&#39;&#39;</span>
+<span class="s1">      cp -r qt_resources $out/lib/python2.7/site-packages/yubioath/gui/</span>
+<span class="s1">    &#39;&#39;</span><span class="p">;</span>
+  <span class="p">}</span>
+</code></pre></div>
 
       
       
