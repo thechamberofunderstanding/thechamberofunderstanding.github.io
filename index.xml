@@ -1,20 +1,20 @@
 <?xml version="1.0" encoding="utf-8" standalone="yes" ?>
 <rss version="2.0" xmlns:atom="http://www.w3.org/2005/Atom">
   <channel>
-    <title>thechamberofunderstanding.github.io</title>
-    <link>http://blog.thechamberofunderstanding.com/</link>
-    <description>Recent content on thechamberofunderstanding.github.io</description>
+    <title>thechamberofunderstanding</title>
+    <link>https://thechamberofunderstanding.github.io/</link>
+    <description>Recent content on thechamberofunderstanding</description>
     <generator>Hugo -- gohugo.io</generator>
     <language>en-us</language>
     <lastBuildDate>Sat, 01 Oct 2016 08:15:53 -0700</lastBuildDate>
-    <atom:link href="http://blog.thechamberofunderstanding.com/index.xml" rel="self" type="application/rss+xml" />
+    <atom:link href="https://thechamberofunderstanding.github.io/index.xml" rel="self" type="application/rss+xml" />
     
     <item>
       <title>Test</title>
-      <link>http://blog.thechamberofunderstanding.com/post/good-to-great/</link>
+      <link>https://thechamberofunderstanding.github.io/post/good-to-great/</link>
       <pubDate>Sat, 01 Oct 2016 08:15:53 -0700</pubDate>
       
-      <guid>http://blog.thechamberofunderstanding.com/post/good-to-great/</guid>
+      <guid>https://thechamberofunderstanding.github.io/post/good-to-great/</guid>
       <description>&lt;p&gt;some stuff here&lt;/p&gt;
 
 def foo
